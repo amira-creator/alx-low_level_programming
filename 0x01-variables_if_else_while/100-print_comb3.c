@@ -5,27 +5,21 @@
  */
 int main(void)
 {
-	int n = 0, m;
+	int n, m;
 
-	while (n <= 9)
+	for (n = 0; n < 9; n++)
 	{
-		m = 0;
-		while (m <= 9)
+		for (m = n + 1; m < 10; m++)
 		{
-			if (n != m && n < m)
-			{
-				putchar(n + 48);
-				putchar(m + 48);
+			putchar((n % 10) + '0');
+			putchar((m % 10) + '0');
 
-				if (n + m != 17)
-				{
-					putchar(' ');
-					putchar(',');
-				}
-			}
-			m++;
+			if (n == 8 && m == 9)
+				continue;
+
+			putchar(',');
+			putchar(' ');
 		}
-		n++;
 	}
 	putchar('\n');
 	return (0);
