@@ -17,7 +17,7 @@ int main(void)
 			putchar((m / 10) + '0');
 			putchar((m % 10) + '0');
 
-			if (n == 8 && m == 9)
+			if (n == 98 && m == 99)
 				continue;
 
 			putchar(',');
