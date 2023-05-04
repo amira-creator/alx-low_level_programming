@@ -1,4 +1,8 @@
 #include <stdio.h>
+/**
+ * main -  print value 98 with new line
+ * Return: Always 0
+ */
 
 int main(void)
 {
