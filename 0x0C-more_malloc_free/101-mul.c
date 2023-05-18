@@ -1,4 +1,7 @@
 #include "main.h"
+#include <sdtio.h>
+#include <stdlib.h>
+#include <ctype.h>
 /**
  * _puts - prints a string ,followes by a new line
  * @str: pointer to the string to print
