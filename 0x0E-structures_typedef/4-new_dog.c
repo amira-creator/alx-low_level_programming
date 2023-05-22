@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "dog.h"
 /**
- * _strlen - a function that gets a length od  string
+ * _strlen - a function that gets a length of  string
  * @str: the string to get the length
  * Return: lenght of @str
  */
@@ -14,7 +14,7 @@ int _strlen(const char *str)
 	return (length);
 }
 /**
- * _strcopy - a function that returns @dest eith a copy of string
+ * _strcopy - a function that returns @dest with a copy of string
  * @src: string to copy
  * @dest: copy string to here
  * Return: @dest
@@ -24,7 +24,7 @@ char *_strcopy(char *dest, char *src)
 	int i;
 
 	for (i = 0; src[i]; i++)
-		dest[i] - src[i];
+		dest[i] = src[i];
 	dest[i] = '\0';
 
 	return (dest);
@@ -52,6 +52,8 @@ dog_t *new_dog(char *name, float age, char *owner)
 		free(dog);
 		return (NULL);
 	}
+
+	dog->owner = malloc(sizeof(char) * (_strlen(owner) + 1));
 	if ((*dog).owner == NULL)
 	{
 		free(dog->name);
