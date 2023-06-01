@@ -1,5 +1,5 @@
 global	main
-	 extern     printf
+	 extern		printf
 main:
 	move	edi, format
 	xor	eax,eax
