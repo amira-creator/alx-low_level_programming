@@ -1,76 +1,83 @@
 #include "hash_tables.h"
 /**
- * shash_table_set - add element to sorted hash table
- * @ht: hash table
- * @key: key
- * @value: value associated with key
- * Return: 1 if successful, 0 otherwise
+ * shash_table_set - Adds an element to a sorted hash table.
+ * @ht: A pointer to the sorted hash table.
+ * @key: The key to add - cannot be an empty string.
+ * @value: The value associated with key.
+ *
+ * Return: Upon failure - 0.
+ *         Otherwise - 1.
  */
 int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 {
-	shash_node_t *new_element, *tmp_element;
-	char *tmp_value;
-	unsigned long int KeyIndex;
+	shash_node_t *new, *tmp;
+	char *value_copy;
+	unsigned long int index;
 
-	if (ht == NULL || key == NULL || value == NULL)
+	if (ht == NULL || key == NULL || *key == '\0' || value == NULL)
 		return (0);
-	tmp_value = strdup(value);
-	if (tmp_value == NULL)
+
+	value_copy = strdup(value);
+	if (value_copy == NULL)
 		return (0);
-	KeyIndex = key_index((const unsigned char *)key, ht->size);
-	tmp_element = ht->shead;
-	while (tmp_element)
-		if (strcmp(tmp_element->key, key) == 0)
+
+	index = key_index((const unsigned char *)key, ht->size);
+	tmp = ht->shead;
+	while (tmp)
+	{
+		if (strcmp(tmp->key, key) == 0)
 		{
-			free(tmp_element->value);
-			tmp_element->value = tmp_value;
+			free(tmp->value);
+			tmp->value = value_copy;
 			return (1);
 		}
-		tmp_element = tmp_element->snext;
-	new_element = malloc(sizeof(shash_node_t));
-	if (new_element == NULL)
+		tmp = tmp->snext;
+	}
+
+	new = malloc(sizeof(shash_node_t));
+	if (new == NULL)
 	{
-		free(tmp_value);
+		free(value_copy);
 		return (0);
 	}
-	new_element->key = strdup(key);
-	if (new_element->key == NULL)
+	new->key = strdup(key);
+	if (new->key == NULL)
 	{
-		free(tmp_value);
-		free(new_element);
+		free(value_copy);
+		free(new);
 		return (0);
 	}
-	new_element->value = tmp_value;
-	new_element->next = ht->array[KeyIndex];
-	ht->array[KeyIndex] = new_element;
+	new->value = value_copy;
+	new->next = ht->array[index];
+	ht->array[index] = new;
+
 	if (ht->shead == NULL)
 	{
-		new_element->sprev = NULL;
-		new_element->snext = NULL;
-		ht->shead = new_element;
-		ht->stail = new_element;
+		new->sprev = NULL;
+		new->snext = NULL;
+		ht->shead = new;
+		ht->stail = new;
 	}
 	else if (strcmp(ht->shead->key, key) > 0)
 	{
-		new_element->sprev = NULL;
-		new_element->snext = ht->shead;
-		ht->shead->sprev = new_element;
-		ht->shead = new_element;
+		new->sprev = NULL;
+		new->snext = ht->shead;
+		ht->shead->sprev = new;
+		ht->shead = new;
 	}
 	else
 	{
-		tmp_element = ht->shead;
-		while (tmp_element->snext != NULL &&
-				strcmp(tmp_element->snext->key, key) < 0)
-			tmp_element = tmp_element->snext
-				;
-		new_element->sprev = tmp_element;
-		new_element->snext = tmp_element->snext;
-		if (tmp_element->snext == NULL)
-			ht->stail = new_element;
+		tmp = ht->shead;
+		while (tmp->snext != NULL && strcmp(tmp->snext->key, key) < 0)
+			tmp = tmp->snext;
+		new->sprev = tmp;
+		new->snext = tmp->snext;
+		if (tmp->snext == NULL)
+			ht->stail = new;
 		else
-			tmp_element->snext->sprev = new_element;
-		tmp_element->snext = new_element;
+			tmp->snext->sprev = new;
+		tmp->snext = new;
 	}
+
 	return (1);
 }
