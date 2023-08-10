@@ -1,11 +1,9 @@
 #include "hash_tables.h"
-
 /**
  * shash_table_set - add element to sorted hash table
  * @ht: hash table
  * @key: key
  * @value: value associated with key
- *
  * Return: 1 if successful, 0 otherwise
  */
 int shash_table_set(shash_table_t *ht, const char *key, const char *value)
@@ -22,7 +20,6 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 	KeyIndex = key_index((const unsigned char *)key, ht->size);
 	tmp_element = ht->shead;
 	while (tmp_element)
-	{
 		if (strcmp(tmp_element->key, key) == 0)
 		{
 			free(tmp_element->value);
@@ -30,7 +27,6 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 			return (1);
 		}
 		tmp_element = tmp_element->snext;
-	}
 	new_element = malloc(sizeof(shash_node_t));
 	if (new_element == NULL)
 	{
